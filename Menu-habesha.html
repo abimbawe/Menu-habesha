@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Habesha - Final Responsive Template</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #008f80; 
+            --primary-light: #00a896;
+            --heading-color: #1a1a1a;
+            --text-color: #444;
+            --background-color: #ffffff;
+            --section-bg: #f5f5f5;
+            --footer-bg: #1a1a1a;
+            --footer-text: #ccc;
+            --max-width: 1400px; 
+            --radius-xl: 16px; 
+            --sidebar-width: 80%; /* Width of the sidebar menu */
+        }
+
+        /* Basic Reset and Setup */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* PREMIUM POLISH: Apply global transition for smoothness */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            /* PREMIUM POLISH: Enable smooth scrolling */
+            scroll-behavior: smooth; 
+        }
+
+        /* Utility Class for Content Centering */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* Reusable Button Style */
+        .btn-primary {
+            display: inline-block;
+            padding: 12px 25px; 
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-xl); 
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+        /* PREMIUM POLISH: Enhanced Button Hover */
+        .btn-primary:hover { 
+            background-color: var(--primary-light); 
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); 
+            transform: translateY(-2px); 
+        }
+        .btn-primary:active {
+            transform: translateY(0); 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .hero-button-wrapper { display: inline-block; }
+
+        /* --- 1. Header/Navigation Bar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            position: relative; 
+            z-index: 1002; /* Ensure header is above menu overlay */
+        }
+        .logo { font-size: 1.5em; font-weight: 800; color: var(--primary-color); } 
+        /* Desktop Links */
+        .nav-links { display: flex; align-items: center; margin-left: 30px; }
+        .nav-links a { 
+            margin: 0 15px; 
+            text-decoration: none; 
+            color: #555; 
+            font-size: 0.95em; 
+            font-weight: 500; 
+            padding: 5px 0; 
+            border-bottom: 2px solid transparent; 
+        }
+        /* PREMIUM POLISH: Nav Link Hover */
+        .nav-links a:hover {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-light); 
+        }
+        .nav-actions {
+            display: block; 
+        }
+
+        /* --- Mobile Menu Styles --- */
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .menu-toggle div {
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+
+        /* ------------------------------------------- */
+        /* --- SLIDE-IN SIDEBAR MENU CSS --- */
+        /* ------------------------------------------- */
+
+        /* Full-screen darkening overlay */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+            z-index: 1000;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile Navigation Sidebar */
+        .mobile-nav {
+            display: flex; 
+            flex-direction: column;
+            
+            position: fixed; /* Fixed position to cover viewport */
+            top: 0; 
+            right: -100%; /* Start off-screen to the right */
+            
+            width: var(--sidebar-width);
+            height: 100vh;
+            max-width: 350px; /* Optional: Limit max width for large screens */
+            
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            
+            padding: 80px 5% 20px 5%; /* Top padding for spacing under the header */
+            text-align: left;
+            overflow-y: auto;
+            
+            /* Enable sliding animation */
+            transition: right 0.3s ease-out; 
+        }
+        
+        /* Menu is visible when the 'active' class is applied */
+        .mobile-nav.active {
+            right: 0; 
+        }
+
+        .mobile-nav a {
+            padding: 15px 0;
+            text-decoration: none;
+            color: var(--heading-color);
+            font-size: 1.1em;
+            border-bottom: 1px solid #eee;
+            display: block; 
+            text-align: center; /* Center links in the sidebar */
+        }
+        .mobile-nav .btn-primary {
+            display: block;
+            margin-top: 20px; 
+            margin-bottom: 0;
+            text-align: center;
+        }
+        .mobile-nav a:last-child {
+            border-bottom: none;
+        }
+
+        /* ------------------------------------------- */
+        /* --- END SLIDE-IN SIDEBAR MENU CSS --- */
+        /* ------------------------------------------- */
+
+        /* --- 2. Hero Section (Two Column) --- */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 40px;
+            align-items: center;
+            padding: 100px 0; 
+        }
+        .hero-content h1 { 
+            font-size: 3.2em; 
+            line-height: 1.2; 
+            margin-bottom: 20px; 
+            color: var(--heading-color);
+            font-weight: 800; 
+        }
+        .hero-content .highlight { 
+            color: #ff9900; 
+            font-weight: 900; 
+        }
+        .hero-content p { margin-bottom: 40px; font-size: 1.1em; } 
+        
+        /* HERO IMAGE MARGIN ADJUSTMENTS (Desktop) */
+        .hero-image-placeholder {
+            width: 95%; /* Reduces the image size slightly */
+            margin: 0 auto; /* Centers the image within its grid column, creating space on both sides */
+            
+            height: 500px;
+            
+            /* Fallback color */
+            background-color: #e8f8f7; 
+            
+            /* FINAL CORRECTED FILENAME */
+            background-image: url('images/appmenu.png'); 
+            
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            border-radius: var(--radius-xl); 
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- 3. Value Proposition Section --- */
+        .value-prop-section { 
+            text-align: center; 
+            padding: 80px 5%; 
+            background-color: var(--section-bg); 
+        }
+        .value-prop-section h2 { font-size: 2.2em; color: var(--heading-color); margin-bottom: 15px; font-weight: 700; }
+        .value-prop-section p { font-size: 1.1em; max-width: 800px; margin: 0 auto 40px auto; color: #666; }
+        .btn-template { padding: 15px 30px; font-size: 1.1em; }
+
+        /* --- 4. Template Gallery Section --- */
+        .template-gallery-section { padding: 80px 0; background-color: var(--background-color); text-align: center; } 
+        .template-gallery-section h2 { font-weight: 700; margin-bottom: 10px; }
+        .template-gallery-section .subtitle { margin-bottom: 50px; display: block; }
+        
+        .template-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 40px; 
+        }
+        .template-card {
+            border-radius: var(--radius-xl); 
+            overflow: hidden; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
+            border: 1px solid #eee;
+        }
+        /* PREMIUM POLISH: Template Card Hover Effect */
+        .template-card:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
+        }
+
+        .template-mockup { 
+            display: block; 
+            width: 100%; 
+            height: 350px; 
+            background-size: cover; 
+            background-position: top center; 
+            border-bottom: 1px solid #eee; 
+        }
+        
+        /* Custom Placeholder Colors/Images (Kept the same) */
+        .mockup-1 { background-color: #333; background-image: url('images/gloria_bakes_template.png'); background-size: cover; } 
+        .mockup-2 { background-color: #3b2c2c; background-image: url('images/heats_house_template.png'); background-size: cover; } 
+        .mockup-3 { background-color: #ffd700; background-image: url('images/travesia_template.png'); background-size: cover; } 
+        .mockup-4 { background-color: #e0e0e0; background-image: url('images/bbq_template.png'); background-size: cover; }
+        .mockup-5 { background-color: #fff; border: 1px solid #ddd; background-image: url('images/luncheon_template.png'); background-size: cover; }
+        .mockup-6 { background-color: #b0e0e6; background-image: url('images/dessert_template.png'); background-size: cover; }
+        
+        .template-info { padding: 15px; text-align: center; background-color: white; }
+        .btn-use-template { 
+            width: 100%; 
+            display: block; 
+            text-align: center; 
+            padding: 10px 0; 
+            background-color: var(--primary-color); 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 600; 
+            border-radius: var(--radius-xl); 
+            margin-bottom: 10px; 
+        }
+        .btn-use-template:hover { background-color: var(--primary-light); }
+        .details-link { display: block; color: var(--primary-color); text-decoration: none; font-size: 0.9em; padding: 5px 0; }
+        
+        /* Feature Blocks */
+        .features-section { padding: 80px 0; background-color: var(--section-bg); }
+        .features-section h2 { font-size: 2.5em; color: var(--heading-color); margin-bottom: 40px; text-align: center; font-weight: 700; }
+        .feature-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 60px; 
+            padding: 60px; 
+            background-color: white;
+            border-radius: var(--radius-xl);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); 
+        }
+        .feature-content h3 { font-size: 2em; margin-bottom: 15px; color: var(--heading-color); font-weight: 700; }
+        .feature-content p { font-size: 1.1em; margin-bottom: 20px; }
+        .feature-content a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .feature-content a:hover { text-decoration: underline; }
+
+        .feature-image-placeholder {
+            width: 100%;
+            height: 350px;
+            background-color: #e0e0e0;
+            border-radius: var(--radius-xl);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #888;
+            font-size: 1.2em;
+        }
+
+        /* --- Footer Styles (Desktop) --- */
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 60px 0 20px 0;
+        }
+        .footer a {
+            color: var(--footer-text);
+            text-decoration: none;
+        }
+        .footer a:hover {
+            color: var(--primary-light);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #333;
+        }
+        .footer-mission p {
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            max-width: 350px;
+        }
+        .footer-social a {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: #333;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .footer-links h4 {
+            color: white;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 10px; 
+            font-size: 0.9em;
+        }
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.8em;
+            padding-top: 20px;
+            color: #777;
+        }
+
+        /* --- Mobile Adjustments (UPDATED) --- */
+        @media (max-width: 900px) {
+            
+            /* HEADER FIXES (Hiding desktop nav) */
+            .nav-links { display: none; }
+            .nav-actions { display: none; } 
+            .menu-toggle { display: flex; } 
+            
+            /* HERO HEADING & SPACING FIX (Mobile) */
+            .hero-section {
+                grid-template-columns: 1fr;
+                /* Increased padding-top for better mobile centering */
+                padding: 60px 0 40px 0; 
+            }
+            .hero-content {
+                text-align: center; 
+            }
+            .hero-content h1 { 
+                font-size: 2.1em; 
+            }
+            .hero-content p { 
+                font-size: 1em; 
+                margin-bottom: 30px; 
+            }
+            
+            /* HERO IMAGE MARGIN ADJUSTMENTS (Mobile) */
+            .hero-image-placeholder {
+                width: 90%; /* Reduce width for mobile margin */
+                margin: 0 auto; /* Center it, creating space on both sides */
+                height: 350px;
+            }
+            
+            /* OTHER MOBILE SECTIONS */
+            .value-prop-section { padding: 50px 5%; }
+            .template-gallery-section { padding: 50px 0; }
+            .features-section { padding: 50px 0; }
+            .template-grid { grid-template-columns: 1fr; }
+            .feature-block { 
+                grid-template-columns: 1fr; 
+                padding: 30px; 
+                gap: 30px;
+            }
+
+            /* Footer Mobile Fixes */
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                text-align: left;
+            }
+            .footer-links {
+                padding-top: 15px;
+                border-top: 1px solid #333;
+            }
+            .footer-links:first-of-type {
+                border-top: none;
+            }
+            .footer-mission {
+                order: 4; 
+                text-align: center;
+                border-top: 1px solid #333;
+                padding-top: 20px;
+            }
+            .footer-mission p {
+                max-width: none;
+                margin: 10px auto 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="logo">menu habesha</div>
+        <nav class="nav-links">
+            <a href="#">Demo</a>
+            <a href="#">Pricing</a>
+            <a href="#">Feature</a>
+        </nav>
+        <div class="nav-actions">
+            <a href="#" class="btn-primary">Try for Free</a>
+        </div>
+        
+        <div class="menu-toggle" id="menuToggle">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+    
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="mobile-nav" id="mobileNav">
+        <a href="#">Demo</a>
+        <a href="#">Pricing</a>
+        <a href="#">Feature</a>
+        <a href="#" class="btn-primary">Try for Free</a>
+    </nav>
+
+    <section class="hero-section container">
+        <div class="hero-content">
+            <h1>Showcase Your Restaurant Online & <span class="highlight">Get More Customers</span></h1>
+            <p>Build your restaurant's online presence without complexity. Create an online menu, website, and direct ordering channel - all in one platform.</p>
+            <a href="https://app.menubly.com/p/shemsi-restaurant" class="btn-primary" style="padding: 15px 30px; font-size: 1.1em;">Launch Demo Now →</a>
+        </div>
+        
+        <div class="hero-image-placeholder">
+            </div>
+    </section>
+
+    <section class="value-prop-section">
+        <h2>Free menu maker to build and update menus in real-time.</h2>
+        <p>Stunning menus built for social media, websites, and print that you can update in seconds.</p>
+        <a href="#template-gallery" class="btn-primary btn-template">Browse Templates</a>
+    </section>
+
+    <section class="template-gallery-section" id="template-gallery">
+        <div class="container">
+            <h2>Find Your Perfect Menu Template</h2>
+            <p class="subtitle">Our range of free menu templates makes it easy for your business to create and publish menus that are tailored to your food service needs.</p>
+            
+            <div class="template-grid">
+                <div class="template-card">
+                    <a href="https://core.menuzen.com/p/bakery?" target="_blank" class="template-mockup mockup-1" title="View Template"></a>
+                    <div class="template-info">
+                        <a href="#" class="btn-use-template">Use this template</a>
+                        <a href="https://core.menuzen.com/p/bakery?" target="_blank" class="details-link">See more details</a>
+                    </div>
+                </div>
+                <div class="template-card">
+                    <a href="https://core.menuzen.com/p/brazilian_bbq" target="_blank" class="template-mockup mockup-2" title="View Template"></a>
+                    <div class="template-info">
+                        <a href="#" class="btn-use-template">Use this template</a>
+                        <a href="https://core.menuzen.com/p/brazilian_bbq" target="_blank" class="details-link">See more details</a>
+                    </div>
+                </div>
+                <div class="template-card">
+                    <a href="https://core.menuzen.com/p/asian1" target="_blank" class="template-mockup mockup-3" title="View Template"></a>
+                    <div class="template-info">
+                        <a href="#" class="btn-use-template">Use this template</a>
+                        <a href="https://core.menuzen.com/p/asian1" target="_blank" class="details-link">See more details</a>
+                    </div>
+                </div>
+                <div class="template-card">
+                    <a href="https://core.menuzen.com/p/americanfoodtruck?" target="_blank" class="template-mockup mockup-4" title="View Template"></a>
+                    <div class="template-info">
+                        <a href="#" class="btn-use-template">Use this template</a>
+                        <a href="https://core.menuzen.com/p/americanfoodtruck?" target="_blank" class="details-link">See more details</a>
+                    </div>
+                </div>
+                <div class="template-card">
+                    <a href="https://core.menuzen.com/p/taqueria-tocayo/menu?" target="_blank" class="template-mockup mockup-5" title="View Template"></a>
+                    <div class="template-info">
+                        <a href="#" class="btn-use-template">Use this template</a>
+                        <a href="https://core.menuzen.com/p/taqueria-tocayo/menu?" target="_blank" class="details-link">See more details</a>
+                    </div>
+                </div>
+                <div class="template-card">
+                    <a href="https://core.menuzen.com/p/hotdawgs/hotdawgs?" target="_blank" class="template-mockup mockup-6" title="View Template"></a>
+                    <div class="template-info">
+                        <a href="#" class="btn-use-template">Use this template</a>
+                        <a href="https://core.menuzen.com/p/hotdawgs/hotdawgs?" target="_blank" class="details-link">See more details</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    
+    <section class="features-section">
+        <div class="container">
+            <h2>Interactive Online Menu. Created in minutes.</h2>
+            <div class="feature-block">
+                <div class="feature-content">
+                    <h3>Accessible via Menu Link or QR Code</h3>
+                    <p>Share your menu anywhere with a simple link or QR code. Customers can browse dishes and place orders directly from their phones.</p>
+                    <a href="#">Learn more →</a>
+                </div>
+                <div class="feature-image-placeholder">
+                    QR Code Mockup Placeholder
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                
+                <div class="footer-mission">
+                    <div class="logo" style="color: white; margin-bottom: 10px;">menu habesha</div>
+                    <p>Building beautiful online menus, websites, and direct ordering systems for restaurants around the world, affordably.</p>
+                    <div class="footer-social">
+                        <a href="#" title="Facebook">f</a>
+                        <a href="#" title="Instagram">i</a>
+                        <a href="#" title="Twitter">t</a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Template Gallery</a></li>
+                        <li><a href="#">QR Code Menus</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="footer-bottom">
+                &copy; 2025 Menu Habesha. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavLinks = mobileNav.querySelectorAll('a');
+        const menuOverlay = document.getElementById('menuOverlay');
+
+        function toggleMenu() {
+            mobileNav.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        }
+
+        // 1. Toggle function for the hamburger button
+        menuToggle.addEventListener('click', toggleMenu);
+        
+        // 2. Close menu when a link inside it is clicked
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+        
+        // 3. Close menu when the overlay is clicked
+        menuOverlay.addEventListener('click', toggleMenu);
+    </script>
+    
+</body>
+</html>
